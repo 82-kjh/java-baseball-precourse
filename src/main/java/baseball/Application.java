@@ -1,7 +1,10 @@
 package baseball;
 
+import camp.nextstep.edu.missionutils.Console;
+import game.GameStarter;
+
 public class Application {
     public static void main(String[] args) {
-        //TODO: 숫자 야구 게임 구현
+        GameStarter gameStarter = new GameStarter();
     }
 }
