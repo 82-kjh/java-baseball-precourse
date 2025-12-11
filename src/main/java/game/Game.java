@@ -5,9 +5,11 @@ import camp.nextstep.edu.missionutils.Randoms;
 import userinteraction.UserInput;
 
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
-public class GameStarter {
+public class Game {
 
     // 게임을 진행
     public void start() {
@@ -71,17 +73,13 @@ public class GameStarter {
 
     // 랜덤 숫자 3자리를 생성
     private List<Integer> generateAnswer() {
-        List<Integer> randomNums = new ArrayList<>();
+        Set<Integer> randomNums = new LinkedHashSet<>();
 
         while (randomNums.size() < 3) {
-            int randomNumber = Randoms.pickNumberInRange(1, 9);
-
-            if (!randomNums.contains(randomNumber)) {
-                randomNums.add(randomNumber);
-            }
+            randomNums.add(Randoms.pickNumberInRange(1, 9));
         }
 
-        return randomNums;
+        return new ArrayList<>(randomNums);
     }
 
     // 사용자의 입력 점수를 계산
