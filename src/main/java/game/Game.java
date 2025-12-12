@@ -4,69 +4,44 @@ import camp.nextstep.edu.missionutils.Console;
 import camp.nextstep.edu.missionutils.Randoms;
 import userinteraction.UserInput;
 
-import java.util.ArrayList;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class Game {
 
-    // 게임을 진행
-    public void start() {
-
+    public void play() {
         // 컴퓨터의 정답 숫자
         List<Integer> randomNums = generateAnswer();
         UserInput ui = new UserInput();
+        GameEvaluator gameEvaluator = new GameEvaluator();
 
-        while (true) {
+        boolean isGameFinished = false;
+
+        while (!isGameFinished) {
             // 유저 input 받음
             String input = ui.getInput();
-            // input 검증
+            // input 3자리 숫자 검증
             ui.validInput(input);
 
-            // 점수 계산
-            GameResult gameResult = calculateGameResult(randomNums, input);
+            // 유저 입력 채점
+            Map<String, Integer> evaluateResult = gameEvaluator.evaluate(randomNums, input);
 
-            int ball = gameResult.getBall();
-            int strike = gameResult.getStrike();
+            // 채점 결과에 따른 메시지 출력
+            String resultMessage = gameEvaluator.getMessage(evaluateResult);
+            System.out.println(resultMessage);
 
-            // 낫싱
-            if (strike == 0 && ball == 0) {
-                System.out.println("낫싱");
+            boolean isThreeStrike = gameEvaluator.validThreeStrike(evaluateResult.get("strike"));
+
+            // 정답이 아니라면 다시 while문 반복
+            if (!isThreeStrike) {
                 continue;
             }
-
-            // 0 strike
-            if (strike == 0 && ball > 0) {
-                System.out.println(ball + "볼");
-                continue;
-            }
-
-            // 0 ball
-            if (strike > 0 && strike != 3 && ball == 0) {
-                System.out.println(strike + "스트라이크");
-                continue;
-            }
-
-            // strike, ball 모두 있음
-            if (strike > 0 && ball > 0) {
-                System.out.println(ball + "볼 " + strike + "스트라이크");
-                continue;
-            }
-
-            // 3 strike
-            if (strike == 3) {
-                System.out.println("3스트라이크\n3개의 숫자를 모두 맞히셨습니다! 게임 종료");
-            }
-
-            // 정답시 마지막 질문
-            int finish = ui.finishGameInput();
-            if (finish == 1) {
-                // 이어서 할 경우 정답을 다시 초기화
+            
+            // 재시작, 종료 입력받기
+            isGameFinished = ui.askRestart();
+            
+            // 재시작한다면 새로운 정답으로 교체
+            if (!isGameFinished) {
                 randomNums = generateAnswer();
-                continue;
-            } else if (finish == 2) {
-                break;
             }
         }
     }
@@ -79,33 +54,7 @@ public class Game {
             randomNums.add(Randoms.pickNumberInRange(1, 9));
         }
 
+        // 각 자리별 숫자 비교를 위해서 List 사용
         return new ArrayList<>(randomNums);
     }
-
-    // 사용자의 입력 점수를 계산
-    public GameResult calculateGameResult(List<Integer> randomNums, String input) {
-
-        // 점수 초기화
-        GameResult gameResult = new GameResult();
-
-        int strike = gameResult.getStrike();
-        int ball = gameResult.getBall();
-
-        for (int i = 0; i < randomNums.size(); i++) {
-            // strike
-            if (randomNums.get(i) == Character.getNumericValue(input.charAt(i))) {
-                strike++;
-
-            } else if (randomNums.contains(Character.getNumericValue(input.charAt(i)))) {
-                // ball
-                ball++;
-            }
-        }
-
-        gameResult.setStrike(strike);
-        gameResult.setBall(ball);
-
-        return gameResult;
-    }
-
 }
