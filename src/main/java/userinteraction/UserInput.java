@@ -6,7 +6,7 @@ public class UserInput {
 
     // 유저의 입력을 받는다
     public String getInput() {
-        System.out.println("숫자를 입력해주세요 : ");
+        System.out.print("숫자를 입력해주세요 : ");
         String userInput = Console.readLine();
 
         return userInput;
@@ -23,21 +23,19 @@ public class UserInput {
         }
     }
 
-    // 정답을 맞추고 난 다음 입력
-    public int finishGameInput() {
+    public boolean askRestart() {
+        System.out.println("3개의 숫자를 모두 맞히셨습니다! 게임 종료");
         System.out.println("게임을 새로 시작하려면 1, 종료하려면 2를 입력하세요.");
 
-        int finishNum = 0;
-
-        String finalInput = Console.readLine();
-        if (finalInput.equals("1")) {
-            finishNum = 1;
-        } else if (finalInput.equals("2")) {
-            finishNum = 2;
+        String userInput = Console.readLine();
+        if (userInput.equals("1")) {
+            // 재시작
+            return false;
+        } else  if (userInput.equals("2")) {
+            // 종료
+            return true;
         } else {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("입력이 1 또는 2가 아닙니다.");
         }
-
-        return finishNum;
     }
 }
