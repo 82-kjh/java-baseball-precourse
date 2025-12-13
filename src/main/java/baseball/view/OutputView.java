@@ -1,5 +1,7 @@
 package baseball.view;
 
+import baseball.domain.GameResult;
+
 import java.io.Console;
 
 public class OutputView {
@@ -28,5 +30,24 @@ public class OutputView {
 
     public void printAskRestartMessage() {
         System.out.println(ASK_RESTART_MESSAGE);
+    }
+
+    public void printResult(GameResult gameResult) {
+        if (gameResult.isNothing()) {
+            System.out.println("낫싱");
+            return;
+        }
+
+        StringBuilder sb = new StringBuilder();
+
+        if (gameResult.getBallCount() > 0) {
+            sb.append(gameResult.getBallCount()).append("볼 ");
+        }
+
+        if (gameResult.getStrikeCount() > 0) {
+            sb.append(gameResult.getStrikeCount()).append("스트라이크");
+        }
+
+        System.out.println(sb.toString().trim());
     }
 }
