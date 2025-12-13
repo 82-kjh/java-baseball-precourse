@@ -12,6 +12,8 @@ public class BaseballNumbers {
     // 불변
     private final List<Integer> baseballNumbers;
 
+    public static final int SIZE = 3;
+
     public BaseballNumbers(List<Integer> baseballNumbers) {
         // 검증
         validate(baseballNumbers);
@@ -54,5 +56,9 @@ public class BaseballNumbers {
     // ball 판별을 위한 메서드
     public boolean contains(int number) {
         return baseballNumbers.contains(number);
+    }
+
+    public int getNumber(int index) {
+        return baseballNumbers.get(index);
     }
 }
