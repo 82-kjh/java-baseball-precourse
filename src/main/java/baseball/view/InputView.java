@@ -5,6 +5,10 @@ import camp.nextstep.edu.missionutils.Console;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * view 클래스에서 정책인 3자리 검증같은 것은 하지 않음
+ * 단순한 입력 클래스로 작성
+ */
 public class InputView {
 
     public List<Integer> readNumber() {
@@ -24,7 +28,12 @@ public class InputView {
         }
     }
 
-    // string을 list로 변환
+    /**
+     *
+     * @param input
+     * @return
+     * 파싱해서 로직에 넘겨준다.
+     */
     private List<Integer> stringToIntegerList(String input) {
         List<Integer> numbers = new ArrayList<>();
         for (char c : input.toCharArray()) {
