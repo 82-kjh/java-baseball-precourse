@@ -49,5 +49,10 @@ public class OutputView {
         }
 
         System.out.println(sb.toString().trim());
+
+        if (gameResult.isWin()) {
+            printEndMessage();
+            printAskRestartMessage();
+        }
     }
 }
